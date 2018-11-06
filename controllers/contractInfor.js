@@ -45,5 +45,16 @@ module.exports={
                 //输出结果
                 res.send(balance)
             })(next)
-    }
+    },
+    //获取data内容
+    getDataByTokenId:(req,res,next)=>{
+        (async ()=>{
+            //创建变量并赋值
+            const b=  await myContract.methods.referencedMetadata(req.params.tokenID).call();
+            //打印结果
+            console.log(b)
+            //输出结果
+            res.send(b)
+        })(next)
+    },
 }

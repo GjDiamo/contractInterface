@@ -23,6 +23,17 @@ module.exports={
             res.send(CEO)
         })(next)
     },
+    //获取合约状态
+    getActive:(req,res,next)=>{
+        (async ()=>{
+            //声明变量并且赋值
+            const active=await myContract.methods.getpaused().call();
+            //打印结果
+            console.log(active)
+            //返回前端
+            res.send(active)
+        }) (next)
+},
     //获取合约内部代币总额
     getTotal:(req,res,next)=>{
         (async ()=>{
@@ -35,7 +46,7 @@ module.exports={
         })(next)
     },
      //带有参数的get请求
-    // 获取指定账户的接口
+    // 获取指定账户的代币数目
     getBalanceByAccounts:(req,res,next)=>{
             (async ()=>{
                 //创建变量并赋值
@@ -46,15 +57,48 @@ module.exports={
                 res.send(balance)
             })(next)
     },
-    //获取data内容
+    // 获取指定账户的具体代币
+    getParkingSpaceOfByAccount:(req,res,next)=>{
+        (async ()=>{
+            //创建变量并赋值
+            const balanceList=  await myContract.methods.parkingSpaceOf(req.params.accounts).call();
+            //打印结果
+            console.log(balanceList)
+            //输出结果
+            res.send(balanceList)
+        })(next)
+    },
+    //获取data全部内容
     getDataByTokenId:(req,res,next)=>{
         (async ()=>{
             //创建变量并赋值
-            const b=  await myContract.methods.referencedMetadata(req.params.tokenID).call();
+            const data=  await myContract.methods.referencedMetadata(req.params.tokenID).call();
             //打印结果
-            console.log(b)
+            console.log(data)
             //输出结果
-            res.send(b)
+            res.send(data)
+        })(next)
+    },
+    //获取指定ID的地理位置
+    getLocationByTokenId:(req,res,next)=>{
+        (async ()=>{
+            //创建变量并赋值
+            const data=  await myContract.methods.referencedMetadata(req.params.tokenID).call();
+            //打印结果
+            console.log(data.location)
+            //输出结果
+            res.send(data.location)
+        })(next)
+    },
+    //获取指定ID的归属地址
+    getAddressByTokenId:(req,res,next)=>{
+        (async ()=>{
+            //创建变量并赋值
+            const Address=  await myContract.methods.ownerOf(req.params.tokenID).call();
+            //打印结果
+            console.log(Address)
+            //输出结果
+            res.send(Address)
         })(next)
     },
 }
